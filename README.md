@@ -15,7 +15,7 @@ In further steps of the project data would be able to be visualised in Kibana as
 
 # Architecture graph
 
-![architecture-draw.png](architecture-draw.png)
+![architecture-draw.png](.README/architecture-draw.png)
 
 # Installation 
 
@@ -42,7 +42,7 @@ In order to fetch the data from the [Kaggle](https://www.kaggle.com) using the S
 
 Navigate to your [account settings](https://www.kaggle.com/<username>/account) and create the new API Token.
 
-![create-token.png](create-token.png)
+![create-token.png](.README/create-token.png)
 
 `account > Create New API Token `
 
