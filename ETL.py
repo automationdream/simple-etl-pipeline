@@ -5,6 +5,9 @@ import pandas as pd
 from sqlalchemy import create_engine
 from pathlib import Path
 import logging
+from kaggle.api.kaggle_api_extended import KaggleApi
+import gzip
+import shutil
 
 logger = logging.getLogger()
 
@@ -20,6 +23,16 @@ class SpotifyDailyTop50Extraction:
             settings.playlist_tracks_metadata_pattern
         )
         self.tracks_metadata_pattern = settings.tracks_metadata_pattern
+        self.kaggle_datasets_url = settings.kaggle_datasets_url
+
+    def get_datasets(self) -> int:
+        """Extracts the data from Kaggle and unzip them. Returns number of unzipped csv datasets."""
+        kaggle_api = KaggleApi()
+        kaggle_api.authenticate()
+        kaggle_api.dataset_download_files(
+            self.kaggle_datasets_url, unzip=True, path=self.data_folder
+        )
+        return self.unzip_files(Path(self.data_folder))
 
     def get_playlist_metadata(self) -> pd.DataFrame:
         playlist_metadata: Path = self.find_dataset(DataType.PlaylistMetadata)
@@ -81,3 +94,16 @@ class SpotifyDailyTop50Extraction:
             return results[0]
 
         return None
+
+    @staticmethod
+    def unzip_files(directory: Path) -> int:
+        """Unzip all files in given directory. Returns number of unzipped files"""
+        zipped_files = list(directory.rglob(f"*.gzip"))
+        unzipped_files = 0
+        for zipped_file in zipped_files:
+            with gzip.open(zipped_file, "rb") as f_in:
+                with open(directory.joinpath(zipped_file.stem), "wb") as f_out:
+                    shutil.copyfileobj(f_in, f_out)
+                    unzipped_files += 1
+
+        return unzipped_files
