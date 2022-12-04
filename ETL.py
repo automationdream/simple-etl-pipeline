@@ -21,15 +21,23 @@ class SpotifyDailyTop50Extraction:
     def get_playlist_metadata(self) -> pd.DataFrame:
         playlist_metadata: Path = self.find_dataset(DataType.PlaylistMetadata)
         if playlist_metadata:
-            self.playlist_metadata = pd.read_csv(playlist_metadata, index_col="Unnamed: 0")
+            if self.check_playlist_metadata(playlist_metadata):
+                self.playlist_metadata = pd.read_csv(
+                    playlist_metadata, index_col="Unnamed: 0"
+                )
         return self.playlist_metadata
 
-    def check_data(self) -> bool:
+    def check_playlist_metadata(self, file: Path) -> bool:
         """
         Various checks for given dataset.
         Should log Error if data is wrong type and Warnings if the data is duplicated or there is no data
         """
-        pass
+        df = pd.read_csv(file)
+        is_not_empty = not df.empty
+        df_columns = df.columns.to_list()
+        required_columns = {"Unnamed: 0", "playlist.id", "playlist.name"}
+        contains_defined_columns = required_columns.issubset(set(df_columns))
+        return all([is_not_empty, contains_defined_columns])
 
     def load_to_database(self) -> bool:
         # TODO: Validate data
