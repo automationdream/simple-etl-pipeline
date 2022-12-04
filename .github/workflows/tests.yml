@@ -78,6 +78,9 @@ jobs:
 
     - name: Run Tests
       # Performs integration and unit tests
+      env:
+        KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
+        KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
       run: |
         pytest .
 
