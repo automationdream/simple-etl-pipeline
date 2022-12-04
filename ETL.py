@@ -20,7 +20,8 @@ class SpotifyDailyTop50Extraction:
 
     def get_playlist_metadata(self) -> pd.DataFrame:
         playlist_metadata: Path = self.find_dataset(DataType.PlaylistMetadata)
-        self.playlist_metadata = pd.read_csv(playlist_metadata, index_col="Unnamed: 0")
+        if playlist_metadata:
+            self.playlist_metadata = pd.read_csv(playlist_metadata, index_col="Unnamed: 0")
         return self.playlist_metadata
 
     def check_data(self) -> bool:
