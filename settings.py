@@ -12,6 +12,7 @@ class Settings(BaseSettings):
     playlist_tracks_metadata_pattern: str = "df_playlist_tracks_metadata.csv"
     tracks_metadata_pattern: str = "df_tracks_metadata.csv"
     data_folder: DirectoryPath = "dataset"
+    kaggle_datasets_url: str = "bwandowando/daily-spotify-top-50-of-60-countries"
 
 
 settings = Settings()
