@@ -1,5 +1,7 @@
 # Simple ETL Pipeline
 
+[![CI](https://github.com/automationdream/simple-etl-pipeline/actions/workflows/tests.yml/badge.svg)](https://github.com/automationdream/simple-etl-pipeline/actions/workflows/tests.yml)
+
 This repository has been created for demonstrating some basic conception of performing Extract Transform and Load tasks 
 using Python programming language in connection with Relational and Non-Relational Databases.
 
