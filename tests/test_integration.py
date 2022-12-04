@@ -50,3 +50,8 @@ class TestDatabaseLoader:
         # Check
         result = db_session.query(PlaylistMetadata.playlist_id)
         assert result.count() == 1800
+
+    def test_extract_datasets(self):
+        top50 = ETL.SpotifyDailyTop50Extraction()
+        top50.data_folder = "tests/dataset"
+        assert top50.get_datasets() == 3

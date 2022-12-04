@@ -18,3 +18,10 @@ def test_check_data():
     if playlist_metadata:
         valid = top50.check_playlist_metadata(playlist_metadata)
         assert valid
+
+
+def test_unzip_files():
+    top50 = ETL.SpotifyDailyTop50Extraction()
+    top50.data_folder = "tests/dataset"
+    unzipped = top50.unzip_files(Path(top50.data_folder))
+    assert unzipped == 3
