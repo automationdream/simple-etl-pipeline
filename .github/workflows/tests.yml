@@ -12,7 +12,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        python-version: [ 3.10 ]
+        python-version: [ "3.10" ]
         os: [ ubuntu-latest ]
 
     # Service containers to run with `container-job`
@@ -47,13 +47,13 @@ jobs:
         pip install -r requirements.txt
     - name: Lint with black
       run: black --check .
-      
-  
+
+
     - name: Run Migration
       # Runs the migration.
       run: |
         alembic upgrade head
-        
+
     - name: Check down migration
       # Runs the migration.
       run: |
