@@ -1,4 +1,4 @@
-from pydantic import BaseSettings, PostgresDsn
+from pydantic import BaseSettings, PostgresDsn, DirectoryPath
 
 
 class Settings(BaseSettings):
@@ -11,6 +11,7 @@ class Settings(BaseSettings):
     playlist_metadata = "df_playlist_metadata"
     playlist_tracks_metadata = "df_playlist_tracks_metadata"
     tracks_metadata = "df_tracks_metadata"
+    data_folder: DirectoryPath = "dataset"
 
 
 settings = Settings()
