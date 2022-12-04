@@ -5,5 +5,3 @@ class DataType(Enum):
     PlaylistMetadata = "PlaylistMetadata"
     PlaylistTracksMetadata = "PlaylistTracksMetadata"
     TracksMetadata = "TracksMetadata"
-
-
