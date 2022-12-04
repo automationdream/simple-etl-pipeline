@@ -29,6 +29,16 @@ services:
       - simple-etl-pipeline:/var/lib/postgresql/data
     networks:
       - simple-etl
+  etl-worker:
+    container_name: "etl-worker"
+    build: .
+    image: simple-etl
+    depends_on:
+      - postgres-database
+    env_file:
+      - .env.dev
+    networks:
+      - simple-etl
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.5.1
     container_name: elasticsearch
