@@ -8,9 +8,9 @@ class Settings(BaseSettings):
     dev_database_url: PostgresDsn = (
         "postgresql://potatoes:tomatoes@127.0.0.1:5433/dev-etl"
     )
-    playlist_metadata = "df_playlist_metadata"
-    playlist_tracks_metadata = "df_playlist_tracks_metadata"
-    tracks_metadata = "df_tracks_metadata"
+    playlist_metadata_pattern = "df_playlist_metadata.csv"
+    playlist_tracks_metadata_pattern = "df_playlist_tracks_metadata.csv"
+    tracks_metadata_pattern = "df_tracks_metadata.csv"
     data_folder: DirectoryPath = "dataset"
 
 
