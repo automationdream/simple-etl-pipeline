@@ -21,6 +21,19 @@ In further steps of the project data would be able to be visualised in Kibana as
 
 # Installation 
 
+## Running on Docker-compose
+
+First edit env.dev file. For more details about your API KEY please read the guide below "Getting the source data".
+
+    KAGGLE_USERNAME=<your_username>
+    KAGGLE_KEY=<your_api_key>
+
+
+To run the ETL job please follow the steps:
+
+    docker-compose up -d postgres-database
+    docker-compose up -d etl-worker
+
 ## Local development
 
 Please make sure that you have Python 3.10 installed.
