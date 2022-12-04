@@ -4,6 +4,9 @@ from settings import Settings
 import pandas as pd
 from sqlalchemy import create_engine
 from pathlib import Path
+import logging
+
+logger = logging.getLogger()
 
 
 class SpotifyDailyTop50Extraction:
@@ -33,11 +36,16 @@ class SpotifyDailyTop50Extraction:
         Should log Error if data is wrong type and Warnings if the data is duplicated or there is no data
         """
         df = pd.read_csv(file)
-        is_not_empty = not df.empty
+        is_empty = df.empty
+        if is_empty:
+            logger.warning("Dataset is empty")
         df_columns = df.columns.to_list()
         required_columns = {"Unnamed: 0", "playlist.id", "playlist.name"}
         contains_defined_columns = required_columns.issubset(set(df_columns))
-        return all([is_not_empty, contains_defined_columns])
+        if not contains_defined_columns:
+            logger.warning("Dataset does not contain required columns")
+
+        return all([not is_empty, contains_defined_columns])
 
     def load_to_database(self) -> bool:
         # TODO: Validate data
