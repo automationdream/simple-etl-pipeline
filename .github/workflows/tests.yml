@@ -35,6 +35,20 @@ jobs:
         ports:
           # Maps tcp port 5432 on service container to the host
           - 5432:5432
+      postgres-test:
+        # Database used for the integration tests
+        image: postgres
+        env:
+          POSTGRES_USER: potatoes
+          POSTGRES_PASSWORD: tomatoes
+          POSTGRES_DB: dev-etl
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5433:5432
 
     steps:
     - uses: actions/checkout@v3
@@ -44,13 +58,14 @@ jobs:
         python-version: ${{ matrix.python-version }}
         cache: 'pip' # caching pip dependencies
         cache-dependency-path: 'requirements.txt'
+
     - name: Install dependencies
       run: |
         pip install black pytest
         pip install -r requirements.txt
+
     - name: Lint with black
       run: black --check .
-
 
     - name: Run Migration
       # Runs the migration.
@@ -58,6 +73,14 @@ jobs:
         alembic upgrade head
 
     - name: Check down migration
-      # Runs the migration.
       run: |
         alembic downgrade -1
+
+    - name: Run Tests
+      # Performs integration and unit tests
+      env:
+        KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
+        KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
+      run: |
+        pytest .
+
