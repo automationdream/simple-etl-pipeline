@@ -32,7 +32,22 @@ First edit env.dev file. For more details about your API KEY please read the gui
 To run the ETL job please follow the steps:
 
     docker-compose up -d postgres-database
-    docker-compose up -d etl-worker
+
+After postgres will start run:
+
+    docker-compose up etl-worker
+
+![etl.png](.README/img.png)
+
+Please note if you see error like and you are using mac M1:
+
+_pg_connect(): Unable to connect to PostgreSQL server: SCRAM authentication requires libpq version 10 or above._
+
+you will need to rebuild your images with environmental variable:
+
+    export DOCKER_DEFAULT_PLATFORM=linux/amd64
+    docker-compose build
+
 
 ## Local development
 
