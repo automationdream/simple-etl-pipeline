@@ -8,13 +8,11 @@ WORKDIR etl
 COPY requirements.txt .
 COPY ETL.py .
 COPY alembic.ini .
-COPY alembic .
-COPY dataset .
-COPY models .
+COPY alembic ./alembic
+COPY dataset ./dataset
+COPY models ./models
 COPY settings.py .
 
 RUN pip install -r requirements.txt
 
-RUN alembic upgrade head
-
-RUN #python -m ETL
+ENTRYPOINT alembic upgrade head && python -m ETL
