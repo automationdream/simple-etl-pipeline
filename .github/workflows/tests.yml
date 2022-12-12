@@ -72,17 +72,13 @@ jobs:
       run: |
         alembic upgrade head
       env:
-        POSTGRES_USER: potatoes
-        POSTGRES_PASSWORD: tomatoes
-        POSTGRES_DB: simple-etl
+        DATABASE_URL: "postgresql://potatoes:tomatoes@localhost:5432/simple-etl"
 
     - name: Check down migration
       run: |
         alembic downgrade -1
       env:
-        POSTGRES_USER: potatoes
-        POSTGRES_PASSWORD: tomatoes
-        POSTGRES_DB: simple-etl
+        DATABASE_URL: "postgresql://potatoes:tomatoes@localhost:5432/simple-etl"
 
     - name: Run Tests
       # Performs integration and unit tests
