@@ -13,8 +13,6 @@ services:
       - '5432:5432'
     volumes:
       - simple-etl-pipeline:/var/lib/postgresql/data
-    networks:
-      - simple-etl
   postgres-dev-database:
     container_name: "postgres-dev-database"
     image: bitnami/postgresql:14.2.0
@@ -27,8 +25,14 @@ services:
       - '5433:5432'
     volumes:
       - simple-etl-pipeline:/var/lib/postgresql/data
-    networks:
-      - simple-etl
+  etl-worker:
+    container_name: "etl-worker"
+    build: .
+    image: etl-worker
+    depends_on:
+      - postgres-database
+    env_file:
+      - .env.dev
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.5.1
     container_name: elasticsearch
@@ -47,12 +51,8 @@ services:
     ports:
       - 9200:9200
       - 9300:9300
-    networks:
-      - simple-etl
     depends_on:
       - postgres-database
-networks:
-  simple-etl:
 
 volumes:
   simple-etl-pipeline:

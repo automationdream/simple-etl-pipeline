@@ -21,6 +21,34 @@ In further steps of the project data would be able to be visualised in Kibana as
 
 # Installation 
 
+## Running on Docker-compose
+
+First edit env.dev file. For more details about your API KEY please read the guide below "Getting the source data".
+
+    KAGGLE_USERNAME=<your_username>
+    KAGGLE_KEY=<your_api_key>
+
+
+To run the ETL job please follow the steps:
+
+    docker-compose up -d postgres-database
+
+After postgres will start run:
+
+    docker-compose up etl-worker
+
+![etl.png](.README/img.png)
+
+Please note if you see error like and you are using mac M1:
+
+_pg_connect(): Unable to connect to PostgreSQL server: SCRAM authentication requires libpq version 10 or above._
+
+you will need to rebuild your images with environmental variable:
+
+    export DOCKER_DEFAULT_PLATFORM=linux/amd64
+    docker-compose build
+
+
 ## Local development
 
 Please make sure that you have Python 3.10 installed.

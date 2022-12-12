@@ -9,6 +9,7 @@ from kaggle.api.kaggle_api_extended import KaggleApi
 import gzip
 import shutil
 
+logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger()
 
 
@@ -107,3 +108,16 @@ class SpotifyDailyTop50Extraction:
                     unzipped_files += 1
 
         return unzipped_files
+
+
+if __name__ == "__main__":
+    logger.info("STARTING ETL JOB...")
+    top50 = SpotifyDailyTop50Extraction()
+    logger.info("EXTRACTING DATA FROM THE KAGGLE...")
+    no_files = top50.get_datasets()
+    logger.info(f"EXTRACTED {no_files} FILES")
+    logger.info("GETTING THE DATA, PREPARING TRANSFORMATION...")
+    top50.get_playlist_metadata()
+    logger.info("LOADING THE DATA INTO THE DATABASE...")
+    top50.load_to_database()
+    logger.info("END OF TASK")
